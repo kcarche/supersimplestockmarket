@@ -19,7 +19,7 @@ public class StockModel {
     @Column(name = "lastdividend")
     private int lastDividend;
 
-    @Column(name = "fixeddividend", nullable = true)
+    @Column(name = "fixeddividend")
     private int fixedDividend;
 
     @Column(name = "parvalue")

@@ -26,7 +26,6 @@ public class ServiceLayer {
                 : stock.getLastDividend() / price;
         return dividendYield;
 
-
     }
 
     public StockModel getStockDetailsBySymbol(String stockSymbol) {
