@@ -17,27 +17,27 @@ public class TradeModel {
     @Column(name = "stock")
     private StockModel stock;
 
-    @Column(name = "timestamp")
+    @Column(name = "purchaselocaltime")
     private LocalTime localTime;
 
-    @Column(name = "datestamp")
+    @Column(name = "purchaselocaldatestamp")
     private LocalDate localDate;
 
     @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "indicator")
-    private String indicator;
+    @Column(name = "saleindicatortype")
+    private String saleIndicatorType;
 
     @Column(name = "price")
     private int price;
 
-    public TradeModel(StockModel stock, int quantity, String indicator, int price) {
+    public TradeModel(StockModel stock, int quantity, String saleIndicatorType, int price) {
         this.stock = stock;
         this.localTime = LocalTime.now(ZoneId.of("UTC"));
         this.localDate = LocalDate.now(ZoneId.of("UTC"));
         this.quantity = quantity;
-        this.indicator = indicator;
+        this.saleIndicatorType = saleIndicatorType;
         this.price = price;
     }
 
@@ -64,8 +64,8 @@ public class TradeModel {
         return quantity;
     }
 
-    public String getIndicator() {
-        return indicator;
+    public String getSaleIndicatorType() {
+        return saleIndicatorType;
     }
 
     public int getPrice() {
