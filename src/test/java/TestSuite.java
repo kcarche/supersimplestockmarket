@@ -1,4 +1,5 @@
 import assessment.cmagml.Main;
+import assessment.cmagml.model.TradeRequest;
 import assessment.cmagml.repository.StockRepository;
 import assessment.cmagml.service.ServiceLayer;
 import org.junit.jupiter.api.Assertions;
@@ -64,4 +65,47 @@ public class TestSuite {
     public void testCalculatePERationTEAExample(){
         Assertions.assertEquals(0.0, testServiceLayer.calculatePERatio(100, "TEA"), 0.0, "PE Ratio should be 0.0");
     }
+
+    @Test
+    public void recordTradeTest1(){
+        TradeRequest tradeRequest = new TradeRequest("POP", 100, "BUY", 100);
+        testServiceLayer.recordTrade(tradeRequest);
+        Assertions.assertSame("Trade Completed", testServiceLayer.recordTrade(tradeRequest), "Trade must be recorded");
+    }
+
+    @Test
+    public void recordTradeTest2(){
+        TradeRequest tradeRequest = new TradeRequest("ALE", 30, "SELL", 40);
+        testServiceLayer.recordTrade(tradeRequest);
+        Assertions.assertSame("Trade Completed", testServiceLayer.recordTrade(tradeRequest), "Trade must be recorded");
+    }
+
+    @Test
+    public void recordTradeTest3(){
+        TradeRequest tradeRequest = new TradeRequest("TEA", 15, "BUY", 80);
+        testServiceLayer.recordTrade(tradeRequest);
+        Assertions.assertSame("Trade Completed", testServiceLayer.recordTrade(tradeRequest), "Trade must be recorded");
+    }
+
+    @Test
+    public void recordTradeTest4(){
+        TradeRequest tradeRequest = new TradeRequest("GIN", 200, "SELL", 8000);
+        testServiceLayer.recordTrade(tradeRequest);
+        Assertions.assertSame("Trade Completed", testServiceLayer.recordTrade(tradeRequest), "Trade must be recorded");
+    }
+
+    @Test
+    public void recordTradeTest5(){
+        TradeRequest tradeRequest = new TradeRequest("JOE", 788, "BUY", 7000);
+        testServiceLayer.recordTrade(tradeRequest);
+        Assertions.assertSame("Trade Completed", testServiceLayer.recordTrade(tradeRequest), "Trade must be recorded");
+    }
+
+    @Test
+    public void recordTradeFailTest1(){
+        TradeRequest tradeRequest = new TradeRequest("WAT", 100, "SELL", 40);
+        testServiceLayer.recordTrade(tradeRequest);
+        Assertions.assertSame("Trade Incomplete: Stock Symbol Invalid", testServiceLayer.recordTrade(tradeRequest), "Trade must be recorded");
+    }
 }
+

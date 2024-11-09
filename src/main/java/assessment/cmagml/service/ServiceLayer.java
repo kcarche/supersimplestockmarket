@@ -66,13 +66,31 @@ public class ServiceLayer {
         }
     }
 
-    public void recordTrade(TradeRequest tradeRequestDetails) {
+    public String recordTrade(TradeRequest tradeRequestDetails) {
 
-        StockModel stock = getStockDetailsBySymbol(tradeRequestDetails.getStockSymbol());
+        StockModel stock = validateStockSymbol(tradeRequestDetails.getStockSymbol());
+        if (stock == null) {
+            return "Trade Incomplete: Stock Symbol Invalid";
+        }
 
         TradeModel trade = new TradeModel(stock, tradeRequestDetails.getQuantity(), tradeRequestDetails.getSalesIndicator(), tradeRequestDetails.getPrice());
 
         tradeRepository.save(trade);
+
+        return "Trade Completed";
+    }
+
+    public StockModel validateStockSymbol(String stockSymbol) {
+        try {
+            StockModel stock = getStockDetailsBySymbol(stockSymbol);
+            if (stock == null) {
+                System.out.println("Stock Symbol Invalid");
+            }
+            return stock;
+        } catch (Exception error) {
+            System.out.println("An error has occurred: " + error);
+            return null;
+        }
     }
 
 }
