@@ -53,6 +53,15 @@
             <scope>test</scope>
         </dependency>
 
+
+        <!-- Spring Batch dependency -->
+        <dependency>
+            <groupId>org.springframework.batch</groupId>
+            <artifactId>spring-batch-core</artifactId>
+            <version>5.1.2</version>
+        </dependency>
+
+
     </dependencies>
 
     <properties>

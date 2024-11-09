@@ -14,7 +14,8 @@ public class TradeModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "stock")
+    @ManyToOne
+    @JoinColumn(name = "stock_id")
     private StockModel stock;
 
     @Column(name = "purchaselocaltime")
