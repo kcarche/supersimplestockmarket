@@ -1,7 +1,10 @@
 package assessment.cmagml.service;
 
 import assessment.cmagml.model.StockModel;
+import assessment.cmagml.model.TradeModel;
+import assessment.cmagml.model.TradeRequest;
 import assessment.cmagml.repository.StockRepository;
+import assessment.cmagml.repository.TradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +13,12 @@ public class ServiceLayer {
 
 
     private final StockRepository stockRepository;
-
+    private final TradeRepository tradeRepository;
     @Autowired
-    public ServiceLayer(StockRepository stockRepository) {
+    public ServiceLayer(StockRepository stockRepository, TradeRepository tradeRepository) {
         this.stockRepository = stockRepository;
+        this.tradeRepository = tradeRepository;
     }
-
 
     public double calculateDividendYield(double price, String stockSymbol) {
 
@@ -62,4 +65,14 @@ public class ServiceLayer {
             System.out.println("PE Ratio calculation completed");
         }
     }
+
+    public void recordTrade(TradeRequest tradeRequestDetails) {
+
+        StockModel stock = getStockDetailsBySymbol(tradeRequestDetails.getStockSymbol());
+
+        TradeModel trade = new TradeModel(stock, tradeRequestDetails.getQuantity(), tradeRequestDetails.getSalesIndicator(), tradeRequestDetails.getPrice());
+
+        tradeRepository.save(trade);
+    }
+
 }
