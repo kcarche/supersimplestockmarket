@@ -19,12 +19,21 @@ public class ServiceLayer {
 
     public double calculateDividendYield(double price, String stockSymbol) {
 
-        StockModel stock = getStockDetailsBySymbol(stockSymbol);
+        try{
+            StockModel stock = getStockDetailsBySymbol(stockSymbol);
 
-        double dividendYield = stock.getStockType().equals("Preferred")
-                ? (((double) stock.getFixedDividend() / 100) * stock.getParValue()) / price
-                : stock.getLastDividend() / price;
-        return dividendYield;
+            double dividendYield = stock.getStockType().equals("Preferred")
+                    ? (((double) stock.getFixedDividend() / 100) * stock.getParValue()) / price
+                    : stock.getLastDividend() / price;
+            return dividendYield;
+
+        }catch(Exception error){
+            System.out.println("An error has occurred: " + error);
+            return 0.0;
+        }finally {
+            System.out.println("Dividend Yield calculation completed");
+        }
+
 
     }
 
@@ -33,4 +42,20 @@ public class ServiceLayer {
         return stockRepository.findByStockSymbol(stockSymbol);
     }
 
+    public double calculatePERatio(int price, String stockSymbol) {
+
+        StockModel stock = getStockDetailsBySymbol(stockSymbol);
+
+        try{
+            if (stock.getLastDividend() == 0) {
+                return 0.0;
+            }
+            return (double) price / stock.getLastDividend();
+        }catch(Exception error) {
+            System.out.println("An error has occurred: " + error);
+            return 0.0;
+        }finally {
+            System.out.println("PE Ratio calculation completed");
+        }
+    }
 }
