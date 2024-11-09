@@ -50,7 +50,11 @@ public class ServiceLayer {
             if (stock.getLastDividend() == 0) {
                 return 0.0;
             }
-            return (double) price / stock.getLastDividend();
+
+            double peRatio = (double) price / stock.getLastDividend();
+
+            return peRatio;
+
         }catch(Exception error) {
             System.out.println("An error has occurred: " + error);
             return 0.0;
