@@ -59,4 +59,16 @@ public class StockModel {
     public int getParValue() {
         return parValue;
     }
+
+    @Override
+    public String toString() {
+        return "StockModel{" +
+                "id=" + id +
+                ", stockSymbol='" + stockSymbol + '\'' +
+                ", stockType='" + stockType + '\'' +
+                ", lastDividend=" + lastDividend +
+                ", fixedDividend=" + fixedDividend +
+                ", parValue=" + parValue +
+                '}';
+    }
 }
