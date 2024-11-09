@@ -107,5 +107,10 @@ public class TestSuite {
         testServiceLayer.recordTrade(tradeRequest);
         Assertions.assertSame("Trade Incomplete: Stock Symbol Invalid", testServiceLayer.recordTrade(tradeRequest), "Trade must be recorded");
     }
+
+    @Test
+    public void calculateVolumeWeightedStockPriceTeaExample(){
+        Assertions.assertEquals(62.7272, testServiceLayer.calculateVolumeWeightedStockPrice("TEA"), 0.0001, "Volume Weighted Stock Price for TEA should be 62.7272");
+    }
 }
 

@@ -8,6 +8,11 @@ import assessment.cmagml.repository.TradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 public class ServiceLayer {
 
@@ -92,5 +97,32 @@ public class ServiceLayer {
             return null;
         }
     }
+
+        public Map<String, List<TradeModel>> getRecentTradesMappedByStockSymbol() {
+            List<TradeModel> trades = tradeRepository.findAll();
+            LocalDateTime fiveMinutesAgo = LocalDateTime.now().minusMinutes(5);
+            return trades.stream()
+                    .filter(trade -> trade.getUTCTimestamp().isAfter(fiveMinutesAgo))
+                    .collect(Collectors.groupingBy(trade -> trade.getStock().getStockSymbol()));
+        }
+
+        public double calculateVolumeWeightedStockPrice (String stockSymbol){
+            Map<String, List<TradeModel>> recentTradesMap = getRecentTradesMappedByStockSymbol();
+            List<TradeModel> recentTrades = recentTradesMap.get(stockSymbol);
+
+            if (recentTrades == null || recentTrades.isEmpty()) {
+                return 0.0;
+            }
+
+            double totalTradePriceQuantity = recentTrades.stream()
+                    .mapToDouble(trade -> trade.getPrice() * trade.getQuantity())
+                    .sum();
+            int totalQuantity = recentTrades.stream()
+                    .mapToInt(TradeModel::getQuantity)
+                    .sum();
+
+            return totalTradePriceQuantity / totalQuantity;
+        }
+
 
 }

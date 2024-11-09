@@ -2,6 +2,7 @@ package assessment.cmagml.model;
 
 import jakarta.persistence.*;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -17,7 +18,7 @@ public class TradeModel {
     private StockModel stock;
 
     @Column(name = "purchasetimestamp")
-    private Instant utctimestamp;
+    private LocalDateTime utctimestamp;
 
     @Column(name = "quantity")
     private int quantity;
@@ -30,7 +31,7 @@ public class TradeModel {
 
     public TradeModel(StockModel stock, int quantity, String saleIndicatorType, int price) {
         this.stock = stock;
-        this.utctimestamp = Instant.now();
+        this.utctimestamp = LocalDateTime.now();
         this.quantity = quantity;
         this.saleIndicatorType = saleIndicatorType.toUpperCase();
         this.price = price;
@@ -47,7 +48,7 @@ public class TradeModel {
         return stock;
     }
 
-    public Instant getUTCTimestamp() {
+    public LocalDateTime getUTCTimestamp() {
         return utctimestamp;
     }
 
