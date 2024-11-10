@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -142,7 +143,29 @@ public class ServiceLayer {
             } catch (Exception error) {
                 System.out.println("An error has occurred: " + error);
                 return 0.0;
+
             }
         }
+
+    public List<String> findUniqueStockSymbols() {
+        try {
+            return stockRepository.findAll().stream()
+                    .map(StockModel::getStockSymbol)
+                    .distinct()
+                    .collect(Collectors.toList());
+        } catch (Exception error) {
+            System.out.println("An error has occurred: " + error);
+            return Collections.emptyList();
+        }
+    }
+
+    public double calculateGeometricMean(){
+        int uniqueStockSymbols = findUniqueStockSymbols().size();
+        double volumeWeightedStockPriceTotal = 0.0;
+        for (String stockSymbol : findUniqueStockSymbols()) {
+            volumeWeightedStockPriceTotal += calculateVolumeWeightedStockPrice(stockSymbol);
+        }
+        return Math.pow(volumeWeightedStockPriceTotal, 1.0 / uniqueStockSymbols);
+    }
 
 }

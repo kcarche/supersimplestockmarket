@@ -40,4 +40,9 @@ public class ControllerLayer {
         return serviceLayer.calculateVolumeWeightedStockPrice(stockSymbol);
     }
 
+    @GetMapping("/geometricmean")
+    public double getGeometricMean(){
+        return serviceLayer.calculateGeometricMean();
+    }
+
 }
