@@ -46,15 +46,19 @@ public class ServiceLayer {
     }
 
     public StockModel getStockDetailsBySymbol(String stockSymbol) {
+        try{
+            return stockRepository.findByStockSymbol(stockSymbol);
+        }catch(Exception error){
+            System.out.println("An error has occurred: " + error);
+            return null;
+        }
 
-        return stockRepository.findByStockSymbol(stockSymbol);
     }
 
     public double calculatePERatio(int price, String stockSymbol) {
 
-        StockModel stock = getStockDetailsBySymbol(stockSymbol);
-
         try{
+            StockModel stock = getStockDetailsBySymbol(stockSymbol);
             if (stock.getLastDividend() == 0) {
                 return 0.0;
             }
@@ -72,17 +76,22 @@ public class ServiceLayer {
     }
 
     public String recordTrade(TradeRequest tradeRequestDetails) {
+        try{
+            StockModel stock = validateStockSymbol(tradeRequestDetails.getStockSymbol());
+            if (stock == null) {
+                return "Trade Incomplete: Stock Symbol Invalid";
+            }
 
-        StockModel stock = validateStockSymbol(tradeRequestDetails.getStockSymbol());
-        if (stock == null) {
-            return "Trade Incomplete: Stock Symbol Invalid";
+            TradeModel trade = new TradeModel(stock, tradeRequestDetails.getQuantity(), tradeRequestDetails.getSalesIndicator(), tradeRequestDetails.getPrice());
+
+            tradeRepository.save(trade);
+
+            return "Trade Completed";
+        }catch(Exception error){
+            System.out.println("An error has occurred: " + error);
+            return "Trade Incomplete";
         }
 
-        TradeModel trade = new TradeModel(stock, tradeRequestDetails.getQuantity(), tradeRequestDetails.getSalesIndicator(), tradeRequestDetails.getPrice());
-
-        tradeRepository.save(trade);
-
-        return "Trade Completed";
     }
 
     public StockModel validateStockSymbol(String stockSymbol) {
@@ -99,30 +108,41 @@ public class ServiceLayer {
     }
 
         public Map<String, List<TradeModel>> getRecentTradesMappedByStockSymbol() {
-            List<TradeModel> trades = tradeRepository.findAll();
-            LocalDateTime fiveMinutesAgo = LocalDateTime.now().minusMinutes(5);
-            return trades.stream()
-                    .filter(trade -> trade.getUTCTimestamp().isAfter(fiveMinutesAgo))
-                    .collect(Collectors.groupingBy(trade -> trade.getStock().getStockSymbol()));
-        }
-
-        public double calculateVolumeWeightedStockPrice (String stockSymbol){
-            Map<String, List<TradeModel>> recentTradesMap = getRecentTradesMappedByStockSymbol();
-            List<TradeModel> recentTrades = recentTradesMap.get(stockSymbol);
-
-            if (recentTrades == null || recentTrades.isEmpty()) {
-                return 0.0;
+            try{
+                List<TradeModel> trades = tradeRepository.findAll();
+                LocalDateTime fiveMinutesAgo = LocalDateTime.now().minusMinutes(5);
+                return trades.stream()
+                        .filter(trade -> trade.getUTCTimestamp().isAfter(fiveMinutesAgo))
+                        .collect(Collectors.groupingBy(trade -> trade.getStock().getStockSymbol()));
+            }catch(Exception error){
+                System.out.println("An error has occurred: " + error);
+                return null;
             }
 
-            double totalTradePriceQuantity = recentTrades.stream()
-                    .mapToDouble(trade -> trade.getPrice() * trade.getQuantity())
-                    .sum();
-            int totalQuantity = recentTrades.stream()
-                    .mapToInt(TradeModel::getQuantity)
-                    .sum();
-
-            return totalTradePriceQuantity / totalQuantity;
         }
 
+        public double calculateVolumeWeightedStockPrice (String stockSymbol) {
+
+            try {
+                Map<String, List<TradeModel>> recentTradesMap = getRecentTradesMappedByStockSymbol();
+                List<TradeModel> recentTrades = recentTradesMap.get(stockSymbol);
+
+                if (recentTrades == null || recentTrades.isEmpty()) {
+                    return 0.0;
+                }
+
+                double totalTradePriceQuantity = recentTrades.stream()
+                        .mapToDouble(trade -> trade.getPrice() * trade.getQuantity())
+                        .sum();
+                int totalQuantity = recentTrades.stream()
+                        .mapToInt(TradeModel::getQuantity)
+                        .sum();
+
+                return totalTradePriceQuantity / totalQuantity;
+            } catch (Exception error) {
+                System.out.println("An error has occurred: " + error);
+                return 0.0;
+            }
+        }
 
 }

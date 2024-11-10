@@ -18,7 +18,18 @@ public class ControllerLayer {
         return "Running";
     }
 
-    //String stockSymbol, int quantity, String salesIndicator, int price
+    @GetMapping("/dividendyield")
+    public double getDividendYield(@RequestParam("price") int price,
+                                   @RequestParam("stocksymbol") String stockSymbol){
+        return serviceLayer.calculateDividendYield(price, stockSymbol);
+    }
+
+    @GetMapping("/peratio")
+    public double getPERatio(@RequestParam("price") int price,
+                             @RequestParam("stocksymbol") String stockSymbol){
+        return serviceLayer.calculatePERatio(price, stockSymbol);
+    }
+
     @PostMapping("/stocktrade")
     public void postStockTrade(@RequestBody TradeRequest tradeRequestDetails){
         serviceLayer.recordTrade(tradeRequestDetails);
