@@ -24,4 +24,9 @@ public class ControllerLayer {
         serviceLayer.recordTrade(tradeRequestDetails);
     }
 
+    @GetMapping("/volumeweightedstockprice")
+    public double getVolumeWeightedStockPrice(@RequestParam("stocksymbol") String stockSymbol){
+        return serviceLayer.calculateVolumeWeightedStockPrice(stockSymbol);
+    }
+
 }

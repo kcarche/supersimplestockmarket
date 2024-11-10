@@ -2,7 +2,9 @@ import assessment.cmagml.Main;
 import assessment.cmagml.model.TradeRequest;
 import assessment.cmagml.repository.StockRepository;
 import assessment.cmagml.service.ServiceLayer;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -82,7 +84,7 @@ public class TestSuite {
 
     @Test
     public void recordTradeTest3(){
-        TradeRequest tradeRequest = new TradeRequest("TEA", 15, "BUY", 80);
+        TradeRequest tradeRequest = new TradeRequest("TEA", 10, "SELL", 100);
         testServiceLayer.recordTrade(tradeRequest);
         Assertions.assertSame("Trade Completed", testServiceLayer.recordTrade(tradeRequest), "Trade must be recorded");
     }
@@ -102,6 +104,20 @@ public class TestSuite {
     }
 
     @Test
+    public void recordTradeTest6(){
+        TradeRequest tradeRequest = new TradeRequest("TEA", 65, "SELL", 80);
+        testServiceLayer.recordTrade(tradeRequest);
+        Assertions.assertSame("Trade Completed", testServiceLayer.recordTrade(tradeRequest), "Trade must be recorded");
+    }
+
+    @Test
+    public void recordTradeTest7(){
+        TradeRequest tradeRequest = new TradeRequest("TEA", 35, "BUY", 20);
+        testServiceLayer.recordTrade(tradeRequest);
+        Assertions.assertSame("Trade Completed", testServiceLayer.recordTrade(tradeRequest), "Trade must be recorded");
+    }
+
+    @Test
     public void recordTradeFailTest1(){
         TradeRequest tradeRequest = new TradeRequest("WAT", 100, "SELL", 40);
         testServiceLayer.recordTrade(tradeRequest);
@@ -110,7 +126,7 @@ public class TestSuite {
 
     @Test
     public void calculateVolumeWeightedStockPriceTeaExample(){
-        Assertions.assertEquals(62.7272, testServiceLayer.calculateVolumeWeightedStockPrice("TEA"), 0.0001, "Volume Weighted Stock Price for TEA should be 62.7272");
+        Assertions.assertEquals(62.7272, testServiceLayer.calculateVolumeWeightedStockPrice("TEA"), 0.0001, "Volume Weighted Stock Price for TEA should be 62.7272, test must be run with all other tests");
     }
 }
 
