@@ -1,10 +1,17 @@
 package assessment.cmagml.model;
 
+
+import jakarta.validation.constraints.NotNull;
+
 public class TradeRequest {
 
+    @NotNull
     private String stockSymbol;
+    @NotNull
     private int quantity;
+    @NotNull
     private String salesIndicator;
+    @NotNull
     private int price;
 
     public TradeRequest(String stockSymbol, int quantity, String salesIndicator, int price) {

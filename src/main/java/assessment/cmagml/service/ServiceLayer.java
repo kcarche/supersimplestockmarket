@@ -83,7 +83,7 @@ public class ServiceLayer {
                 return "Trade Incomplete: Stock Symbol Invalid";
             }
 
-            TradeModel trade = new TradeModel(stock, tradeRequestDetails.getQuantity(), tradeRequestDetails.getSalesIndicator(), tradeRequestDetails.getPrice());
+            TradeModel trade = new TradeModel(stock, tradeRequestDetails.getQuantity(), TradeModel.TradeType.valueOf(tradeRequestDetails.getSalesIndicator().toUpperCase()), tradeRequestDetails.getPrice());
 
             tradeRepository.save(trade);
 

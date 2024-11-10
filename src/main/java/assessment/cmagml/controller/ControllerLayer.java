@@ -1,6 +1,5 @@
 package assessment.cmagml.controller;
 
-import assessment.cmagml.model.TradeModel;
 import assessment.cmagml.model.TradeRequest;
 import assessment.cmagml.service.ServiceLayer;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,6 @@
 package assessment.cmagml.model;
 
 import jakarta.persistence.*;
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 
@@ -24,16 +23,17 @@ public class TradeModel {
     private int quantity;
 
     @Column(name = "saleindicatortype")
-    private String saleIndicatorType;
+    @Enumerated(EnumType.STRING)
+    private TradeType saleIndicatorType;
 
     @Column(name = "price")
     private int price;
 
-    public TradeModel(StockModel stock, int quantity, String saleIndicatorType, int price) {
+    public TradeModel(StockModel stock, int quantity, TradeType saleIndicatorType, int price) {
         this.stock = stock;
         this.utctimestamp = LocalDateTime.now();
         this.quantity = quantity;
-        this.saleIndicatorType = saleIndicatorType.toUpperCase();
+        this.saleIndicatorType = saleIndicatorType;
         this.price = price;
     }
 
@@ -56,11 +56,16 @@ public class TradeModel {
         return quantity;
     }
 
-    public String getSaleIndicatorType() {
+    public TradeType getSaleIndicatorType() {
         return saleIndicatorType;
     }
 
     public int getPrice() {
         return price;
+    }
+
+    public enum TradeType {
+        BUY,
+        SELL
     }
 }
