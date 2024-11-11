@@ -1,0 +1,208 @@
+{
+	"info": {
+		"_postman_id": "07973e34-cfff-4ebe-bc03-12ec8d6602ca",
+		"name": "PopulateTrades",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "39617187"
+	},
+	"item": [
+		{
+			"name": "TEATrade1Sell",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"stockSymbol\": \"TEA\", \"quantity\": 10, \"salesIndicator\": \"sell\", \"price\": 100}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/stocktrade"
+			},
+			"response": []
+		},
+		{
+			"name": "TEATrade2Sell",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"stockSymbol\": \"TEA\", \"quantity\": 65, \"salesIndicator\": \"sell\", \"price\": 80}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/stocktrade"
+			},
+			"response": []
+		},
+		{
+			"name": "TEATrade3Buy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"stockSymbol\": \"TEA\", \"quantity\": 35, \"salesIndicator\": \"buy\", \"price\": 20}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/stocktrade"
+			},
+			"response": []
+		},
+		{
+			"name": "POPTrade1Buy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"stockSymbol\": \"POP\", \"quantity\": 100, \"salesIndicator\": \"buy\", \"price\": 800}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/stocktrade"
+			},
+			"response": []
+		},
+		{
+			"name": "POPTrade2Buy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"stockSymbol\": \"POP\", \"quantity\": 50, \"salesIndicator\": \"buy\", \"price\": 600}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/stocktrade"
+			},
+			"response": []
+		},
+		{
+			"name": "POPTrade3Sell",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"stockSymbol\": \"POP\", \"quantity\": 200, \"salesIndicator\": \"buy\", \"price\": 1000}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/stocktrade"
+			},
+			"response": []
+		},
+		{
+			"name": "ALETrade1Buy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"stockSymbol\": \"ALE\", \"quantity\": 10, \"salesIndicator\": \"buy\", \"price\": 100}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/stocktrade"
+			},
+			"response": []
+		},
+		{
+			"name": "ALETrade2Sell",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"stockSymbol\": \"ALE\", \"quantity\": 50, \"salesIndicator\": \"sell\", \"price\": 600}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/stocktrade"
+			},
+			"response": []
+		},
+		{
+			"name": "GINTrade1Sell",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"stockSymbol\": \"GIN\", \"quantity\": 30, \"salesIndicator\": \"sell\", \"price\": 75}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/stocktrade"
+			},
+			"response": []
+		},
+		{
+			"name": "JOETrade1Buy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"stockSymbol\": \"JOE\", \"quantity\": 10, \"salesIndicator\": \"buy\", \"price\": 10000}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/stocktrade"
+			},
+			"response": []
+		},
+		{
+			"name": "JOETrade2Sell",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"stockSymbol\": \"JOE\", \"quantity\": 10, \"salesIndicator\": \"sell\", \"price\": 5000}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/stocktrade"
+			},
+			"response": []
+		}
+	]
+}
