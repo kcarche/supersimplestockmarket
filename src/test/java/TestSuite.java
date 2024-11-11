@@ -1,6 +1,5 @@
 import assessment.cmagml.Main;
 import assessment.cmagml.model.TradeRequest;
-import assessment.cmagml.repository.StockRepository;
 import assessment.cmagml.service.ServiceLayer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,9 +11,6 @@ public class TestSuite {
 
     @Autowired
     ServiceLayer testServiceLayer;
-
-//    @Autowired
-//    StockRepository testStockRepository;
 
     @Test
     public void testCalculateDividendYieldPOPExample() {
@@ -125,6 +121,57 @@ public class TestSuite {
     @Test
     public void calculateVolumeWeightedStockPriceTeaExample(){
         Assertions.assertEquals(62.7272, testServiceLayer.calculateVolumeWeightedStockPrice("TEA"), 0.0001, "Volume Weighted Stock Price for TEA should be 62.7272, test must be run with all other tests");
+    }
+
+    @Test
+    public void calculateGeoMeanTest(){
+        TradeRequest tradeRequest = new TradeRequest("TEA", 10, "SELL", 100);
+        testServiceLayer.recordTrade(tradeRequest);
+        tradeRequest = new TradeRequest("TEA", 65, "SELL", 80);
+        testServiceLayer.recordTrade(tradeRequest);
+        tradeRequest = new TradeRequest("TEA", 35, "BUY", 20);
+        testServiceLayer.recordTrade(tradeRequest);
+        tradeRequest = new TradeRequest("POP", 100, "BUY", 800);
+        testServiceLayer.recordTrade(tradeRequest);
+        tradeRequest = new TradeRequest("POP", 50, "BUY", 600);
+        testServiceLayer.recordTrade(tradeRequest);
+        tradeRequest = new TradeRequest("POP", 200, "BUY", 1000);
+        testServiceLayer.recordTrade(tradeRequest);
+        tradeRequest = new TradeRequest("ALE", 10, "BUY", 100);
+        testServiceLayer.recordTrade(tradeRequest);
+        tradeRequest = new TradeRequest("ALE", 50, "SELL", 600);
+        testServiceLayer.recordTrade(tradeRequest);
+        tradeRequest = new TradeRequest("GIN", 30, "SELL", 75);
+        testServiceLayer.recordTrade(tradeRequest);
+        tradeRequest = new TradeRequest("JOE", 10, "BUY", 10000);
+        testServiceLayer.recordTrade(tradeRequest);
+        tradeRequest = new TradeRequest("JOE", 10, "SELL", 5000);
+        testServiceLayer.recordTrade(tradeRequest);
+        Assertions.assertEquals(6.1835, testServiceLayer.calculateGeometricMean(), 0.0001, "Geometric Mean should be 6.1835");
+    }
+
+    @Test
+    public void validateTradeRequestIncorrectSaleIndicator(){
+        TradeRequest tradeRequest = new TradeRequest("POP", 100, "BUYER", 100);
+        Assertions.assertSame("Trade Incomplete: Invalid SaleIndicator Type", testServiceLayer.validateTradeRequest(tradeRequest), "Trade request should return invalid sale indicator warning");
+    }
+
+    @Test
+    public void validateTradeRequestInvalidPrice(){
+        TradeRequest tradeRequest = new TradeRequest("ALE", 100, "BUY", -100);
+        Assertions.assertSame("Trade Incomplete: Price must be greater than 0", testServiceLayer.validateTradeRequest(tradeRequest), "Trade request should return invalid price warning");
+    }
+
+    @Test
+    public void validateTradeRequestInvalidQuantity(){
+        TradeRequest tradeRequest = new TradeRequest("GIN", -100, "BUY", 100);
+        Assertions.assertSame("Trade Incomplete: Quantity must be greater than 0", testServiceLayer.validateTradeRequest(tradeRequest), "Trade request should return invalid quantity warning");
+    }
+
+    @Test
+    public void validateTradeRequestValid(){
+        TradeRequest tradeRequest = new TradeRequest("JOE", 100, "SELL", 100);
+        Assertions.assertSame("Trade Valid", testServiceLayer.validateTradeRequest(tradeRequest), "Trade request should return valid");
     }
 }
 
