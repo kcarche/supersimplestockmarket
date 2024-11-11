@@ -39,8 +39,6 @@ public class ServiceLayer {
         }catch(Exception error){
             System.out.println("An error has occurred: " + error);
             return 0.0;
-        }finally {
-            System.out.println("Dividend Yield calculation completed");
         }
 
 
@@ -71,8 +69,6 @@ public class ServiceLayer {
         }catch(Exception error) {
             System.out.println("An error has occurred: " + error);
             return 0.0;
-        }finally {
-            System.out.println("PE Ratio calculation completed");
         }
     }
 
@@ -81,6 +77,10 @@ public class ServiceLayer {
             StockModel stock = validateStockSymbol(tradeRequestDetails.getStockSymbol());
             if (stock == null) {
                 return "Trade Incomplete: Stock Symbol Invalid";
+            }
+
+            if (!validateTradeRequest(tradeRequestDetails).equals("Trade Valid")) {
+                return validateTradeRequest(tradeRequestDetails);
             }
 
             TradeModel trade = new TradeModel(stock, tradeRequestDetails.getQuantity(), TradeModel.TradeType.valueOf(tradeRequestDetails.getSalesIndicator().toUpperCase()), tradeRequestDetails.getPrice());
@@ -106,6 +106,29 @@ public class ServiceLayer {
             System.out.println("An error has occurred: " + error);
             return null;
         }
+    }
+
+    public String validateTradeRequest(TradeRequest tradeRequestDetails) {
+
+        try{
+            if (!tradeRequestDetails.getSalesIndicator().equalsIgnoreCase("BUY") && !tradeRequestDetails.getSalesIndicator().equalsIgnoreCase("SELL")) {
+                return "Trade Incomplete: Invalid SaleIndicator Type";
+            }
+
+            if (tradeRequestDetails.getPrice() <= 0) {
+                return "Trade Incomplete: Price must be greater than 0";
+            }
+
+            if (tradeRequestDetails.getQuantity() <= 0) {
+                return "Trade Incomplete: Quantity must be greater than 0";
+            }
+
+            return "Trade Valid";
+        }catch(Exception error){
+            System.out.println("An error has occurred: " + error);
+            return "Trade Incomplete";
+        }
+
     }
 
         public Map<String, List<TradeModel>> getRecentTradesMappedByStockSymbol() {
@@ -160,12 +183,18 @@ public class ServiceLayer {
     }
 
     public double calculateGeometricMean(){
-        int uniqueStockSymbols = findUniqueStockSymbols().size();
-        double volumeWeightedStockPriceTotal = 0.0;
-        for (String stockSymbol : findUniqueStockSymbols()) {
-            volumeWeightedStockPriceTotal += calculateVolumeWeightedStockPrice(stockSymbol);
+        try{
+            int uniqueStockSymbols = findUniqueStockSymbols().size();
+            double volumeWeightedStockPriceTotal = 0.0;
+            for (String stockSymbol : findUniqueStockSymbols()) {
+                volumeWeightedStockPriceTotal += calculateVolumeWeightedStockPrice(stockSymbol);
+            }
+            return Math.pow(volumeWeightedStockPriceTotal, 1.0 / uniqueStockSymbols);
+        }catch(Exception error){
+            System.out.println("An error has occurred: " + error);
+            return 0.0;
         }
-        return Math.pow(volumeWeightedStockPriceTotal, 1.0 / uniqueStockSymbols);
+
     }
 
 }

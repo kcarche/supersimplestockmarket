@@ -13,8 +13,8 @@ public class TestSuite {
     @Autowired
     ServiceLayer testServiceLayer;
 
-    @Autowired
-    StockRepository testStockRepository;
+//    @Autowired
+//    StockRepository testStockRepository;
 
     @Test
     public void testCalculateDividendYieldPOPExample() {
