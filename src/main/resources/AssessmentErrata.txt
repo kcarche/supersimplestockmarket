@@ -1,0 +1,70 @@
+Below is supplementary information for testing/validating the submitted application
+
+The below URLs can be used to test the dividend yield return function
+
+localhost:8080/dividendyield?price=100&stocksymbol=POP
+
+result = 0.08
+
+localhost:8080/dividendyield?price=200&stocksymbol=GIN
+
+result = 0.01
+
+The below URLs can be used to test the P/E Ratio return function
+
+localhost:8080/peratio?price=500&stocksymbol=JOE
+
+result = 38.46153846153846
+
+localhost:8080/peratio?price=100&stocksymbol=ALE
+
+result = 4.3478260869565215
+
+
+To test stock trade functionality, the following POST requests can made via POSTMAN, using
+localhost:8080/stocktrade, with the below JSON added to the body of each POST request.
+
+For your convenience, a txt file called POSTMANCOLLECTIONJSON.txt has been included in the src/main/resources
+directory of the project folder, should you wish to use the JSON to create a Collection to run the file
+in batch format
+
+
+{"stockSymbol": "TEA", "quantity": 10, "salesIndicator": "sell", "price": 100}
+{"stockSymbol": "TEA", "quantity": 65, "salesIndicator": "sell", "price": 80}
+{"stockSymbol": "TEA", "quantity": 35, "salesIndicator": "buy", "price": 20}
+{"stockSymbol": "POP", "quantity": 100, "salesIndicator": "buy", "price": 800}
+{"stockSymbol": "POP", "quantity": 50, "salesIndicator": "buy", "price": 600}
+{"stockSymbol": "POP", "quantity": 200, "salesIndicator": "buy", "price": 1000}
+{"stockSymbol": "ALE", "quantity": 10, "salesIndicator": "buy", "price": 100}
+{"stockSymbol": "ALE", "quantity": 50, "salesIndicator": "sell", "price": 600}
+{"stockSymbol": "GIN", "quantity": 30, "salesIndicator": "sell", "price": 75}
+{"stockSymbol": "JOE", "quantity": 10, "salesIndicator": "buy", "price": 10000}
+{"stockSymbol": "JOE", "quantity": 10, "salesIndicator": "sell", "price": 5000}
+
+The below URLs can be used to test the calculate Volume Weighted Stock Price return function, with the results
+based on the ALL of the above POST requests having been made prior to the API call being made
+
+localhost:8080/volumeweightedstockprice?stocksymbol=POP
+
+result = 885.7142857142857
+
+localhost:8080/volumeweightedstockprice?stocksymbol=GIN
+
+result = 75.0
+
+To test the Geometric Mean functionality, the below URL can be used once the POST requests above are run
+
+localhost:8080/geometricmean
+
+result = 6.183505137400724
+
+
+Misc.
+To view the Stocks table or Trades table, the below URL can be used with the credentials shown while the
+application is running:
+
+localhost:8080/h2-console
+
+JDBC URL: jdbc:h2:mem:testdb
+Username: sa
+Password: password
