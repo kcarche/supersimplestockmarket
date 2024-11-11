@@ -1,5 +1,7 @@
 Below is supplementary information for testing/validating the submitted application
 
+The application can be run from the Main file in this location: assessment/cmagml/Main.java
+
 The below URLs can be used to test the dividend yield return function
 
 localhost:8080/dividendyield?price=100&stocksymbol=POP
